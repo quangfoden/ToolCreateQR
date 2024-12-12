@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator</title>
+    <script src="https://cdn.jsdelivr.net/npm/qrcode/build/qrcode.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            padding: 10px;
+            width: 100%;
+            max-width: 400px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 10px;
+            transition: border-color 0.3s;
+        }
+
+        input[type="text"]:focus {
+            border-color: #007bff;
+            outline: none;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #qrCode {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        @media (max-width: 600px) {
+            input[type="text"], button {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .container {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>QR Code Generator</h1>
+        <input type="text" id="inputText" placeholder="Nhập URL hoặc văn bản" />
+        <button onclick="generateQRCode()">Tạo mã QR</button>
+        <div id="qrCode"></div>
+    </div>
+
+    <script>
+        function generateQRCode() {
+            var inputText = document.getElementById('inputText').value.trim();
+
+            if(inputText === "") {
+                alert("Vui lòng nhập một URL hoặc văn bản.");
+                return;
+            }
+
+            document.getElementById('qrCode').innerHTML = '';
+
+            QRCode.toDataURL(inputText, function (error, url) {
+                if (error) {
+                    console.error(error);
+                    alert("Đã xảy ra lỗi khi tạo mã QR.");
+                    return;
+                }
+
+                var img = document.createElement('img');
+                img.src = url;
+                img.alt = "QR Code";
+                img.style.maxWidth = "100%";
+                document.getElementById('qrCode').appendChild(img);
+                console.log('Mã QR đã được tạo thành công!');
+            });
+        }
+    </script>
+</body>
+</html>
